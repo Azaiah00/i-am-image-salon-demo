@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { sharePreview } from "@/lib/og";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, CalendarHeart, Check, Clock, Quote } from "lucide-react";
@@ -17,7 +18,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const l = LANDING[slug];
   if (!l) return {};
-  return { title: l.metaTitle, description: l.metaDesc, alternates: { canonical: `/services/${slug}` } };
+  return {
+    title: l.metaTitle,
+    description: l.metaDesc,
+    alternates: { canonical: `/services/${slug}` },
+    ...sharePreview({ title: `${l.metaTitle} · I Am Image Salon`, description: l.metaDesc, path: `/services/${slug}`, image: `/og/${slug}.jpg`, alt: `${l.metaTitle} at I Am Image Salon, NW Portland` }),
+  };
 }
 
 export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {

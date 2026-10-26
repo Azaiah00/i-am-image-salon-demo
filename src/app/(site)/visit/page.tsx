@@ -44,12 +44,12 @@ export default function VisitPage() {
                   </a>
                 </li>
                 <li>
-                  <a href={SITE.phoneHref} className="flex items-center gap-4 text-lg text-bone hover:text-paper">
+                  <a href={SITE.phoneHref} className="flex min-h-11 items-center gap-4 text-lg text-bone hover:text-paper">
                     <Phone className="size-5 shrink-0 text-flare" aria-hidden /> {SITE.phone}
                   </a>
                 </li>
                 <li>
-                  <a href={`mailto:${SITE.email}`} className="flex items-center gap-4 break-all text-lg text-bone hover:text-paper">
+                  <a href={`mailto:${SITE.email}`} className="flex min-h-11 items-center gap-4 break-all text-lg text-bone hover:text-paper">
                     <Mail className="size-5 shrink-0 text-flare" aria-hidden /> {SITE.email}
                   </a>
                 </li>

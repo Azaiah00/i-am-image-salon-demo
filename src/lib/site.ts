@@ -13,10 +13,11 @@ export const SITE = {
   owner: "Kayla Means",
   tagline: "Elevate your look. Empower your image.",
   /**
-   * Address used by share previews, canonical tags and the sitemap. Defaults to the
-   * Netlify demo. At launch set NEXT_PUBLIC_SITE_URL=https://www.iamimagepdx.com in Netlify.
+   * Address used by share previews, canonical tags and the sitemap. On Netlify this is
+   * picked up automatically from the site's primary URL (see next.config.ts). At launch,
+   * set NEXT_PUBLIC_SITE_URL=https://www.iamimagepdx.com in Netlify to pin the real domain.
    */
-  url: (process.env.NEXT_PUBLIC_SITE_URL || "https://i-am-image-salon.netlify.app").replace(/\/$/, ""),
+  url: (process.env.NEXT_PUBLIC_SITE_URL || "https://i-am-image-salon-demo.netlify.app").replace(/\/$/, ""),
   phone: "(503) 224-0399",
   phoneHref: "tel:+15032240399",
   email: "kaylameans@gmail.com",
@@ -82,6 +83,13 @@ export const IS_DEMO_HOST = SITE.url.includes("netlify.app");
  */
 export const BOOKING_MODE: "portal" | "square" = "portal";
 export const BOOK_HREF = BOOKING_MODE === "portal" ? "/book" : SITE.squareUrl;
+/**
+ * Shows the "Demo sign-in" button in the header and mobile menu (opens /portal, where the
+ * salon picks Client / Owner / Stylist and the guided walkthrough). Set to false at launch
+ * and the button reads "Sign in" instead; it is hidden entirely in "square" mode.
+ */
+export const PORTAL_DEMO = true;
+export const SHOW_PORTAL_LINK = BOOKING_MODE === "portal";
 export const bookHref = (serviceId?: string) => (BOOKING_MODE === "portal" ? (serviceId ? `/book?service=${serviceId}` : "/book") : SITE.squareUrl);
 
 export const NAV = [

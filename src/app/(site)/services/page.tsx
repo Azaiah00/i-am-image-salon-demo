@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { sharePreview } from "@/lib/og";
 import Link from "next/link";
 import { Info } from "lucide-react";
 import { MenuBrowser } from "@/components/ui/MenuBrowser";
@@ -10,6 +11,13 @@ export const metadata: Metadata = {
   title: "Services & Prices — Full Salon Menu",
   description: `All ${SERVICES.length} I Am Image services with real prices and times: locs, braids, Cécred silk press, color, cuts, sew-ins, relaxers, fades and kids’ styles in NW Portland.`,
   alternates: { canonical: "/services" },
+  ...sharePreview({
+    title: "The full menu · I Am Image Salon",
+    description: `${SERVICES.length} services with prices and times up front: locs, braids, silk press, color, cuts, sew-ins, fades and kids' styles in NW Portland.`,
+    path: "/services",
+    image: "/og/menu.jpg",
+    alt: "I Am Image Salon full menu: locs, braids, silk press, color and cuts, weaves and wigs, barber and kids.",
+  }),
 };
 
 export default function ServicesPage() {

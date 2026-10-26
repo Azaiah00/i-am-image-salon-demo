@@ -178,13 +178,13 @@ export function Booker() {
     <div className="wrap grid gap-8 pb-40 pt-6 lg:grid-cols-[1fr_22rem] lg:pb-20 lg:pt-10">
       <div className="min-w-0">
         {/* progress */}
-        <ol className="flex items-center gap-1.5" aria-label="Booking steps">
+        <ol data-tour="b-steps" className="flex items-center gap-1.5" aria-label="Booking steps">
           {STEPS.map((s, i) => (
             <li key={s} className="flex-1">
               <button
                 onClick={() => i < step && goto(i)}
                 disabled={i >= step}
-                className="group w-full py-2 text-left disabled:cursor-default"
+                className="group w-full py-4 text-left disabled:cursor-default sm:py-2"
                 aria-current={i === step ? "step" : undefined}
                 aria-label={`Step ${i + 1}: ${s}${i < step ? " (go back)" : ""}`}
               >
@@ -221,7 +221,7 @@ export function Booker() {
                     ))}
                   </div>
                 )}
-                <div className="mt-6 grid gap-2" role="radiogroup" aria-label="Services">
+                <div data-tour="b-services" className="mt-6 grid gap-2" role="radiogroup" aria-label="Services">
                   {filtered.map((s) => {
                     const on = serviceId === s.id;
                     return (
@@ -534,7 +534,7 @@ export function Booker() {
 
 function Summary(p: { svcName?: string; addOns: { id: string; name: string; price: number | null }[]; stylist?: string; when?: string; minutes: number; price: number; fromish: boolean; deposit: number; hasSvc: boolean; consult: boolean }) {
   return (
-    <div className="card-night p-6">
+    <div data-tour="b-summary" className="card-night p-6">
       <p className="eyebrow text-silver">Your booking</p>
       {!p.hasSvc ? (
         <p className="mt-4 text-mist/80">Pick a service to see your price, time and deposit — it updates as you go.</p>

@@ -115,7 +115,7 @@ export function SpiralPopup() {
         </button>
         <div className="grid items-center gap-6 p-5 sm:p-8 md:grid-cols-[1fr_1fr] md:gap-8">
           {/* WHEEL */}
-          <div className="relative mx-auto aspect-square w-full max-w-[17rem] md:max-w-[22rem]">
+          <div className="relative mx-auto aspect-square w-full max-w-[min(17rem,34svh)] md:max-w-[min(22rem,60svh)]">
             <div aria-hidden className="absolute left-1/2 top-[-6px] z-10 -translate-x-1/2">
               <svg width="26" height="30" viewBox="0 0 26 30">
                 <path d="M13 30 2 4a12 12 0 1 1 22 0L13 30Z" fill="#f4f1ee" />

@@ -1,4 +1,6 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+import { sharePreview } from "@/lib/og";
 import { ArrowRight, Award, CalendarHeart, Clock, HeartHandshake, MapPin, MessageCircle, Phone, Quote, Repeat, Sparkles } from "lucide-react";
 import { Hero } from "@/components/home/Hero";
 import { MirrorFaces } from "@/components/home/MirrorFaces";
@@ -10,6 +12,17 @@ import { BOOK_HREF, SITE, bookHref, hm } from "@/lib/site";
 import { SERVICES, SERVICE_BY_ID, fmtDuration, fmtPrice } from "@/lib/services";
 import { FAQ, REVIEWS, TEAM, WORK } from "@/lib/content";
 import { ARTICLES } from "@/lib/journal";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+  ...sharePreview({
+    title: "I Am Image Salon · Elevate your look. Empower your image.",
+    description: "Locs, braids, silk press, color & cuts for women, men and kids · NW Portland since 2011 · 5.0★ on Google.",
+    path: "/",
+    image: "/og.jpg",
+    alt: "I Am Image Salon in NW Portland: Elevate your look. Empower your image.",
+  }),
+};
 
 const PROOF = [
   "5.0 on Google · 37 reviews",
@@ -385,7 +398,7 @@ export default function HomePage() {
                   <span className="block text-sm text-silver">Inside {SITE.address.building}</span>
                 </span>
               </a>
-              <a href={SITE.phoneHref} className="flex items-center gap-4 text-lg text-bone hover:text-paper">
+              <a href={SITE.phoneHref} className="flex min-h-11 items-center gap-4 text-lg text-bone hover:text-paper">
                 <Phone className="size-5 shrink-0 text-flare" aria-hidden /> {SITE.phone}
               </a>
               <div className="flex gap-4">

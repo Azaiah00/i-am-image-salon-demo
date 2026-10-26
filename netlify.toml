@@ -4,6 +4,9 @@
 [build.environment]
   NODE_VERSION = "20"
   NEXT_TELEMETRY_DISABLED = "1"
+  # The one address every share preview, canonical tag and sitemap points to.
+  # Texted links always resolve to this site. At launch change it to https://www.iamimagepdx.com
+  NEXT_PUBLIC_SITE_URL = "https://i-am-image-salon-demo.netlify.app"
 
 # @netlify/plugin-nextjs (Netlify's Next.js runtime) is detected automatically.
 # Do not set a publish directory; the runtime handles the output.
@@ -15,6 +18,17 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     X-Frame-Options = "SAMEORIGIN"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# Share-preview cards: short cache so a regenerated card shows up on the next share.
+[[headers]]
+  for = "/og/*"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/og.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
 
 [[headers]]
   for = "/media/*"

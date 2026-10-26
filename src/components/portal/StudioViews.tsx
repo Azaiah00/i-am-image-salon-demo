@@ -155,7 +155,7 @@ export function Overview() {
   return (
     <div>
       <PageHead title={title} sub={`${fmtDate(today, { weekday: "long", month: "long", day: "numeric" })} · ${scope === "all" ? "whole salon" : "your book only"}`} action={<Link href="/portal/studio/calendar" className="btn btn-primary">Open calendar</Link>} />
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div data-tour="s-stats" className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <Stat label="Today" value={String(todays.length)} sub="appointments" icon={CalendarDays} />
         <Stat label="Last 7 days" value={money(Math.round(week.revenue))} sub={<span className={change >= 0 ? "text-ok" : "text-flare"}>{change >= 0 ? "+" : ""}{change}% vs prior week</span>} icon={DollarSign} />
         <Stat label="Avg ticket (30d)" value={money(Math.round(month.avg))} sub={`${month.done} completed`} icon={TrendingUp} />
@@ -163,7 +163,7 @@ export function Overview() {
       </div>
 
       <div className="mt-5 grid gap-5 xl:grid-cols-[1.25fr_1fr]">
-        <Panel title="Today’s chair" action={<span className="text-sm text-silver">{todays.length} booked</span>}>
+        <Panel tour="s-today" title="Today’s chair" action={<span className="text-sm text-silver">{todays.length} booked</span>}>
           {todays.length === 0 ? (
             <p className="text-mist/80">No appointments today{today.getDay() === 0 || today.getDay() === 3 ? " — the salon is closed." : "."}</p>
           ) : (
@@ -190,14 +190,14 @@ export function Overview() {
             </ul>
           )}
         </Panel>
-        <Panel title="Revenue · last 14 days">
+        <Panel tour="s-revenue" title="Revenue · last 14 days">
           <Bars data={daily} />
           <p className="mt-3 text-xs text-silver">Deposits + balances collected (demo data).</p>
         </Panel>
       </div>
 
       <div className="mt-5 grid gap-5 lg:grid-cols-2">
-        <Panel title="Needs confirmation" action={<span className="text-sm text-silver">{needs.length}</span>}>
+        <Panel tour="s-confirm" title="Needs confirmation" action={<span className="text-sm text-silver">{needs.length}</span>}>
           {needs.length === 0 ? (
             <p className="text-mist/80">All upcoming bookings are confirmed.</p>
           ) : (
@@ -207,7 +207,7 @@ export function Overview() {
                   <span className="min-w-0 truncate text-mist">
                     {fmtDate(a.start)} {fmtTime(a.start)} · {SERVICE_BY_ID[a.serviceId].name}
                   </span>
-                  <button onClick={() => setStatus(a.id, "confirmed")} className="shrink-0 rounded-full border border-white/12 px-3 py-1.5 text-xs text-bone hover:border-flare">
+                  <button onClick={() => setStatus(a.id, "confirmed")} className="min-h-11 shrink-0 rounded-full border border-white/12 px-4 text-sm text-bone hover:border-flare sm:min-h-9 sm:text-xs">
                     Confirm
                   </button>
                 </li>
@@ -215,7 +215,7 @@ export function Overview() {
             </ul>
           )}
         </Panel>
-        <Panel title="Coming up" action={<Link href="/portal/studio/appointments" className="text-sm text-flare hover:text-paper">All →</Link>}>
+        <Panel title="Coming up" action={<Link href="/portal/studio/appointments" className="inline-flex min-h-11 items-center text-sm text-flare hover:text-paper">All →</Link>}>
           <ul className="space-y-2">
             {upcoming.slice(0, 6).map((a) => (
               <li key={a.id}>
@@ -262,7 +262,7 @@ export function CalendarView() {
         title="Calendar"
         sub={scope === "all" ? "Every stylist, side by side" : `${STAFF_BY_KEY[scope].name}’s book`}
         action={
-          <button onClick={block} disabled={!h.open} className="btn btn-ghost disabled:opacity-40">
+          <button data-tour="s-block" onClick={block} disabled={!h.open} className="btn btn-ghost disabled:opacity-40">
             <CalendarPlus className="size-4" aria-hidden /> Block an hour
           </button>
         }
@@ -280,7 +280,8 @@ export function CalendarView() {
         <p className="ml-2 text-lg text-bone">{fmtDate(day, { weekday: "long", month: "long", day: "numeric" })}</p>
         {!h.open && <span className="rounded-full bg-white/10 px-3 py-1 text-xs text-silver">Salon closed</span>}
       </div>
-      <div className="card-night overflow-x-auto">
+      {cols.length > 1 && <p className="mb-2 text-xs text-silver md:hidden">Swipe sideways to see every stylist →</p>}
+      <div data-tour="s-calendar" className="card-night overflow-x-auto">
         <div className="grid min-w-[640px]" style={{ gridTemplateColumns: `4rem repeat(${cols.length}, minmax(10rem,1fr))` }}>
           <div className="sticky left-0 z-10 border-b border-white/10 bg-onyx" />
           {cols.map((c) => (
@@ -358,7 +359,7 @@ export function AppointmentsView() {
   return (
     <div>
       <PageHead title="Appointments" sub="Every booking from the portal and imported from Square (demo)." />
-      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center">
+      <div data-tour="s-filters" className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center">
         <div className="flex gap-2">
           {(["upcoming", "past", "all"] as const).map((t) => (
             <button key={t} onClick={() => setTab(t)} aria-pressed={tab === t} className={cn("min-h-11 rounded-full border px-4 text-sm capitalize", tab === t ? "border-red bg-crimson text-paper" : "border-white/12 text-mist")}>
@@ -372,7 +373,27 @@ export function AppointmentsView() {
           <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Client or service" className="h-11 w-full rounded-full border border-white/12 bg-onyx pl-9 pr-3 text-sm text-bone focus:border-flare focus:outline-none" />
         </label>
       </div>
-      <div className="card-night overflow-x-auto">
+      <ul className="space-y-2 md:hidden">
+        {list.length === 0 && <li className="card-night p-5 text-mist/80">No appointments match.</li>}
+        {list.map((a) => (
+          <li key={a.id}>
+            <button onClick={() => setOpen(a.id)} className="card-night flex w-full items-start justify-between gap-3 p-4 text-left">
+              <span className="min-w-0">
+                <span className="block text-sm text-silver">
+                  {fmtDate(a.start)} · {fmtTime(a.start)} · {STAFF_BY_KEY[a.staff].short}
+                </span>
+                <span className="mt-0.5 block truncate text-bone">{clientName(clients.find((c) => c.id === a.clientId))}</span>
+                <span className="block truncate text-sm text-mist/80">{SERVICE_BY_ID[a.serviceId].name}</span>
+              </span>
+              <span className="flex shrink-0 flex-col items-end gap-2">
+                <StatusBadge s={a.status} />
+                <span className="tabular-nums text-bone">{money(a.price)}</span>
+              </span>
+            </button>
+          </li>
+        ))}
+      </ul>
+      <div className="card-night hidden overflow-x-auto md:block">
         <table className="w-full min-w-[640px] text-sm">
           <thead className="text-left text-xs uppercase tracking-[0.12em] text-silver">
             <tr className="border-b border-white/10">
@@ -391,7 +412,7 @@ export function AppointmentsView() {
                   {fmtDate(a.start)} · {fmtTime(a.start)}
                 </td>
                 <td className="px-4 py-3 text-bone">
-                  <button className="text-left" onClick={() => setOpen(a.id)}>
+                  <button className="min-h-11 text-left" onClick={() => setOpen(a.id)}>
                     {clientName(clients.find((c) => c.id === a.clientId))}
                   </button>
                 </td>
@@ -438,7 +459,7 @@ export function ClientsView() {
         <span className="sr-only">Search clients</span>
         <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Name, phone or email" className="h-11 w-full rounded-full border border-white/12 bg-onyx pl-9 pr-3 text-sm text-bone focus:border-flare focus:outline-none" />
       </label>
-      <ul className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+      <ul data-tour="s-clients" className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
         {visible.map((x) => {
           const n = appts.filter((a) => a.clientId === x.id && a.status === "completed").length;
           return (
@@ -585,14 +606,14 @@ export function FinancesView() {
           </div>
         }
       />
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div data-tour="s-money" className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <Stat label="Collected" value={money(Math.round(all.revenue))} sub={`${range} days`} icon={DollarSign} />
         <Stat label="Completed visits" value={String(all.done)} sub={`avg ${money(Math.round(all.avg))}`} icon={CheckCircle2} />
         <Stat label="Deposits taken" value={money(Math.round(deposits))} sub="protects your chair time" icon={TrendingUp} />
         <Stat label="Deposits held" value={money(Math.round(held))} sub="for upcoming visits" icon={Clock} />
       </div>
       <div className="mt-5 grid gap-5 lg:grid-cols-2">
-        <Panel title="By stylist">
+        <Panel tour="s-bystaff" title="By stylist">
           <Bars data={byStaff} />
         </Panel>
         <Panel title="By service category">
@@ -642,7 +663,7 @@ export function TeamView() {
   return (
     <div>
       <PageHead title="Team & payroll" sub="Last 14 days · each stylist logs in and sees only their own book." />
-      <div className="grid gap-4 md:grid-cols-2">
+      <div data-tour="s-team" className="grid gap-4 md:grid-cols-2">
         {STAFF.map((s) => {
           const t = totals(appts, payments, from, to, s.key);
           const openMins = Array.from({ length: 14 }, (_, i) => addDays(from, i)).reduce((n, d) => {
@@ -699,30 +720,30 @@ export function SettingsView() {
     <div>
       <PageHead title="Services & hours" sub="Changes apply instantly to the booking page (this demo session)." />
       <div className="grid gap-5 xl:grid-cols-2">
-        <Panel title="Opening hours">
+        <Panel tour="s-hours" title="Opening hours">
           <ul className="space-y-2">
             {[1, 2, 3, 4, 5, 6, 0].map((i) => {
               const h = settings.hours[i];
               const setH = (patch: Partial<{ open: string | null; close: string | null }>) => updateSettings({ hours: settings.hours.map((x, j) => (j === i ? { ...x, ...patch } : x)) });
               return (
-                <li key={i} className="flex flex-wrap items-center gap-3 text-sm">
+                <li key={i} className="flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-white/[0.05] pb-2 text-sm last:border-0 sm:border-0 sm:pb-0">
                   <span className="w-24 text-mist">{DAYS[i]}</span>
-                  <label className="flex items-center gap-2 text-silver">
-                    <input type="checkbox" checked={!!h.open} onChange={(e) => setH(e.target.checked ? { open: "10:00", close: "18:00" } : { open: null, close: null })} className="size-4 accent-[#c8140e]" /> Open
+                  <label className="flex min-h-11 items-center gap-2 text-silver">
+                    <input type="checkbox" checked={!!h.open} onChange={(e) => setH(e.target.checked ? { open: "10:00", close: "18:00" } : { open: null, close: null })} className="size-5 accent-[#c8140e]" /> Open
                   </label>
                   {h.open && (
-                    <>
-                      <input type="time" value={h.open} onChange={(e) => setH({ open: e.target.value })} className="h-10 rounded-lg border border-white/12 bg-ink px-2 text-bone" aria-label={`${DAYS[i]} opens`} />
+                    <span className="flex w-full items-center gap-2 sm:w-auto">
+                      <input type="time" value={h.open} onChange={(e) => setH({ open: e.target.value })} className="h-11 min-w-0 flex-1 rounded-lg border border-white/12 bg-ink px-2 text-bone sm:flex-none" aria-label={`${DAYS[i]} opens`} />
                       <span className="text-silver">to</span>
-                      <input type="time" value={h.close ?? ""} onChange={(e) => setH({ close: e.target.value })} className="h-10 rounded-lg border border-white/12 bg-ink px-2 text-bone" aria-label={`${DAYS[i]} closes`} />
-                    </>
+                      <input type="time" value={h.close ?? ""} onChange={(e) => setH({ close: e.target.value })} className="h-11 min-w-0 flex-1 rounded-lg border border-white/12 bg-ink px-2 text-bone sm:flex-none" aria-label={`${DAYS[i]} closes`} />
+                    </span>
                   )}
                 </li>
               );
             })}
           </ul>
         </Panel>
-        <Panel title="Deposits" action={<span className="needs-tag">proposed</span>}>
+        <Panel tour="s-deposits" title="Deposits" action={<span className="needs-tag">proposed</span>}>
           <p className="text-sm text-mist/85">The salon hasn’t published a deposit rule. These defaults protect long appointments; Mermaid Locs keep their real $230 deposit.</p>
           <div className="mt-4 grid gap-3 sm:grid-cols-3">
             {(
@@ -747,7 +768,7 @@ export function SettingsView() {
           </label>
         </Panel>
       </div>
-      <Panel title={`Menu (${SERVICES.length} services)`} className="mt-5">
+      <Panel tour="s-menu" title={`Menu (${SERVICES.length} services)`} className="mt-5">
         <div className="mb-4 flex flex-col gap-3 sm:flex-row">
           <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search services" className="h-11 rounded-full border border-white/12 bg-ink px-4 text-sm text-bone sm:w-64" aria-label="Search services" />
           <select value={cat} onChange={(e) => setCat(e.target.value)} className="h-11 rounded-full border border-white/12 bg-ink px-4 text-sm text-bone" aria-label="Category">
@@ -759,7 +780,42 @@ export function SettingsView() {
             ))}
           </select>
         </div>
-        <div className="overflow-x-auto">
+        <ul className="divide-y divide-white/[0.06] md:hidden">
+          {list.map((s0) => {
+            const s = liveService(s0, settings);
+            return (
+              <li key={s.id} className="py-4">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="text-bone">{s.name}</p>
+                    <p className="text-xs text-silver">
+                      {fmtPrice(s0)} on Square · deposit {money(depositFor(s, settings))}
+                    </p>
+                  </div>
+                  <label className="flex min-h-11 shrink-0 items-center gap-2 text-xs text-silver">
+                    Online
+                    <input type="checkbox" checked={s.active} onChange={(e) => overrideService(s.id, { active: e.target.checked })} className="size-6 accent-[#c8140e]" aria-label={`${s.name} bookable online`} />
+                  </label>
+                </div>
+                <div className="mt-2 grid grid-cols-2 gap-3">
+                  <label className="text-xs text-silver">
+                    Price ($)
+                    {s.price == null ? (
+                      <span className="mt-1 flex h-11 items-center text-sm text-silver">Quoted</span>
+                    ) : (
+                      <input type="number" inputMode="numeric" min={0} value={s.price} onChange={(e) => overrideService(s.id, { price: Math.max(0, Number(e.target.value)) })} className="mt-1 h-11 w-full rounded-lg border border-white/12 bg-ink px-3 text-base text-bone" />
+                    )}
+                  </label>
+                  <label className="text-xs text-silver">
+                    Minutes
+                    <input type="number" inputMode="numeric" min={5} step={5} value={s.minutes} onChange={(e) => overrideService(s.id, { minutes: Math.max(5, Number(e.target.value)) })} className="mt-1 h-11 w-full rounded-lg border border-white/12 bg-ink px-3 text-base text-bone" />
+                  </label>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+        <div className="hidden overflow-x-auto md:block">
           <table className="w-full min-w-[640px] text-sm">
             <thead className="text-left text-xs uppercase tracking-[0.12em] text-silver">
               <tr className="border-b border-white/10">
@@ -791,7 +847,7 @@ export function SettingsView() {
                     </td>
                     <td className="py-2 pr-3 text-mist">{money(depositFor(s, settings))}</td>
                     <td className="py-2">
-                      <input type="checkbox" checked={s.active} onChange={(e) => overrideService(s.id, { active: e.target.checked })} className="size-4 accent-[#c8140e]" aria-label={`${s.name} bookable online`} />
+                      <input type="checkbox" checked={s.active} onChange={(e) => overrideService(s.id, { active: e.target.checked })} className="size-5 accent-[#c8140e]" aria-label={`${s.name} bookable online`} />
                     </td>
                   </tr>
                 );

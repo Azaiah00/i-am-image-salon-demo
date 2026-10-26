@@ -7,6 +7,7 @@ import { CalendarDays, CalendarHeart, ClipboardList, Crown, ExternalLink, Layout
 import { STAFF, STAFF_BY_KEY, scopeOf, setViewAs, signIn, signOut, useDB, useMounted } from "@/lib/portal/db";
 import type { StaffKey } from "@/lib/services";
 import { Loading, PortalLogo } from "./ui";
+import { maybeStartTour } from "@/lib/portal/tour";
 import { cn } from "@/lib/cn";
 
 const NAV = [
@@ -36,10 +37,10 @@ export function StudioShell({ children }: { children: React.ReactNode }) {
           <h1 className="display mt-4 text-5xl text-bone">Salon studio</h1>
           <p className="mt-3 text-mist/80">For Kayla and the I Am Image team. For the demo, open it with one tap.</p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <button onClick={() => signIn("owner", "Google")} className="btn btn-primary">
+            <button onClick={() => (signIn("owner", "Demo login"), maybeStartTour("owner"))} className="btn btn-primary">
               Enter as Kayla (owner)
             </button>
-            <button onClick={() => signIn("stylist", "Google", "alcion")} className="btn btn-ghost">
+            <button onClick={() => (signIn("stylist", "Demo login", "alcion"), maybeStartTour("stylist"))} className="btn btn-ghost">
               Enter as Alcion (stylist)
             </button>
           </div>
@@ -53,7 +54,7 @@ export function StudioShell({ children }: { children: React.ReactNode }) {
   const ownerOnly = NAV.find((n) => n.owner && (pathname === n.href || pathname.startsWith(`${n.href}/`)));
 
   const nav = (
-    <nav aria-label="Studio" className="flex flex-col gap-1">
+    <nav data-tour="s-nav" aria-label="Studio" className="flex flex-col gap-1">
       {items.map((n) => {
         const active = n.href === "/portal/studio" ? pathname === n.href : pathname.startsWith(n.href);
         return (
@@ -73,7 +74,7 @@ export function StudioShell({ children }: { children: React.ReactNode }) {
   );
 
   const who = (
-    <div className="rounded-2xl border border-white/10 p-3">
+    <div data-tour="s-who" className="rounded-2xl border border-white/10 p-3">
       <p className="text-[11px] uppercase tracking-[0.16em] text-silver">{isOwner ? "Owner" : "Stylist"}</p>
       <p className="mt-0.5 text-bone">{isOwner ? "Kayla Means" : STAFF_BY_KEY[session.staff!].name}</p>
       {isOwner && (
@@ -114,7 +115,7 @@ export function StudioShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="lg:grid lg:grid-cols-[264px_1fr]">
-      <aside className="sticky top-0 hidden h-[calc(100svh-28px)] flex-col gap-6 overflow-y-auto border-r border-white/[0.07] bg-onyx p-5 lg:flex">
+      <aside className="sticky top-0 hidden h-[calc(100svh-44px)] flex-col gap-6 overflow-y-auto border-r border-white/[0.07] bg-onyx p-5 lg:flex">
         <PortalLogo href="/portal/studio" sub={isOwner ? "Owner studio" : "Stylist studio"} />
         {who}
         <div className="flex-1">{nav}</div>
@@ -123,7 +124,7 @@ export function StudioShell({ children }: { children: React.ReactNode }) {
 
       <div className="min-w-0">
         <header className="sticky top-0 z-30 flex items-center gap-3 border-b border-white/[0.07] bg-ink/90 px-4 py-3 backdrop-blur-xl lg:hidden">
-          <button onClick={() => setOpen(true)} className="grid size-11 place-items-center rounded-full text-bone" aria-label="Open menu">
+          <button data-tour="s-nav" onClick={() => setOpen(true)} className="grid size-11 place-items-center rounded-full text-bone" aria-label="Open menu">
             <Menu className="size-5" />
           </button>
           <PortalLogo href="/portal/studio" sub={isOwner ? "Owner studio" : "Stylist studio"} />

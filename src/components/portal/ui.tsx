@@ -6,11 +6,17 @@ import { AnimatePresence, motion } from "framer-motion";
 import { CheckCircle2, X } from "lucide-react";
 import { useDB, type ApptStatus } from "@/lib/portal/db";
 import { cn } from "@/lib/cn";
+import { GuideControls } from "./Tour";
 
 export function DemoBanner() {
   return (
-    <div className="relative z-[60] bg-crimson px-4 py-1.5 text-center text-[11px] font-medium tracking-wide text-paper">
-      DEMO MODE · sample clients & appointments · no real payments are taken · resets when you refresh
+    <div className="relative z-[60] flex h-11 items-center justify-between gap-3 bg-crimson px-3 text-paper sm:px-4">
+      <p className="min-w-0 truncate text-[11px] font-medium tracking-wide">
+        <span className="font-semibold">DEMO</span>
+        <span className="hidden sm:inline"> · sample clients &amp; appointments · no real payments · resets on refresh</span>
+        <span className="sm:hidden"> · sample data · no real payments</span>
+      </p>
+      <GuideControls />
     </div>
   );
 }
@@ -22,7 +28,7 @@ export function PortalLogo({ href = "/portal", sub = "Booking" }: { href?: strin
       <img src="/media/brand/mark-dark.svg" alt="" aria-hidden width={20} height={42} className="h-10 w-auto" />
       <span className="leading-none">
         <span className="block text-[0.95rem] font-medium tracking-[0.3em] text-bone">I AM IMAGE</span>
-        <span className="eyebrow mt-1 block whitespace-nowrap text-[0.6rem] tracking-[0.26em] text-flare">{sub}</span>
+        <span className="eyebrow mt-1 block whitespace-nowrap text-[0.66rem] tracking-[0.24em] text-flare">{sub}</span>
       </span>
     </Link>
   );
@@ -68,9 +74,9 @@ export function Stat({ label, value, sub, icon: Icon }: { label: string; value: 
   );
 }
 
-export function Panel({ title, action, children, className }: { title: string; action?: React.ReactNode; children: React.ReactNode; className?: string }) {
+export function Panel({ title, action, children, className, tour }: { title: string; action?: React.ReactNode; children: React.ReactNode; className?: string; tour?: string }) {
   return (
-    <section className={cn("card-night min-w-0 p-5 sm:p-6", className)} aria-label={title}>
+    <section data-tour={tour} className={cn("card-night min-w-0 p-5 sm:p-6", className)} aria-label={title}>
       <div className="mb-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
         <h2 className="text-xl text-bone">{title}</h2>
         {action}

@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { CalendarHeart, Menu, Phone, X } from "lucide-react";
-import { BOOK_HREF, NAV, SITE } from "@/lib/site";
+import { CalendarHeart, KeyRound, Menu, Phone, X } from "lucide-react";
+import { BOOK_HREF, NAV, PORTAL_DEMO, SHOW_PORTAL_LINK, SITE } from "@/lib/site";
 import { cn } from "@/lib/cn";
 import { InstagramIcon, FacebookIcon } from "./BrandIcons";
 
@@ -84,6 +84,17 @@ export function Header() {
             <a href={SITE.phoneHref} className="hidden min-h-11 items-center gap-2 px-2 text-sm text-mist/85 hover:text-paper xl:inline-flex">
               <Phone className="size-4 text-flare" aria-hidden /> {SITE.phone}
             </a>
+            {SHOW_PORTAL_LINK && (
+              <Link
+                href="/portal"
+                aria-label={PORTAL_DEMO ? "Demo sign-in: try the booking portal as a client, owner or stylist" : "Sign in"}
+                className="group relative inline-flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-full border border-flare/60 bg-ink/40 px-3 text-sm text-bone transition hover:border-flare hover:bg-crimson/20 sm:px-4"
+              >
+                <KeyRound className="size-4 text-flare" aria-hidden />
+                <span className="hidden sm:inline">{PORTAL_DEMO ? "Demo sign-in" : "Sign in"}</span>
+                {PORTAL_DEMO && <span aria-hidden className="absolute -right-1 -top-1.5 rounded-full bg-crimson px-1.5 py-px text-[9px] font-semibold tracking-[0.12em] text-paper sm:hidden">DEMO</span>}
+              </Link>
+            )}
             <Link href={BOOK_HREF} className="btn btn-primary hidden !min-h-11 !px-5 sm:inline-flex">
               <CalendarHeart className="size-4" aria-hidden /> Book now
             </Link>
@@ -127,6 +138,11 @@ export function Header() {
             <Link href={BOOK_HREF} onClick={() => setOpen(false)} className="btn btn-primary w-full">
               <CalendarHeart className="size-4" aria-hidden /> Book your appointment
             </Link>
+            {SHOW_PORTAL_LINK && (
+              <Link href="/portal" onClick={() => setOpen(false)} className="btn btn-ghost w-full">
+                <KeyRound className="size-4 text-flare" aria-hidden /> {PORTAL_DEMO ? "Demo sign-in · client, owner or stylist" : "Sign in"}
+              </Link>
+            )}
             <div className="flex items-center justify-between text-sm text-mist">
               <a href={SITE.phoneHref} className="inline-flex min-h-11 items-center gap-2">
                 <Phone className="size-4 text-flare" aria-hidden /> {SITE.phone}

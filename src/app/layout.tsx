@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     title: "I Am Image Salon — Elevate your look. Empower your image.",
     description: "Locs, braids, silk press, color & cuts for women, men and kids · NW Portland since 2011 · 5.0★ on Google.",
-    images: [{ url: "/og.jpg", width: 1200, height: 630, type: "image/jpeg", alt: "I Am Image Salon — red line-art portrait and the I Am Image logo" }],
+    images: [{ url: "/og.jpg", width: 1200, height: 630, type: "image/jpeg", alt: "I Am Image Salon in NW Portland: Elevate your look. Empower your image." }],
   },
   twitter: {
     card: "summary_large_image",

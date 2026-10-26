@@ -3,8 +3,18 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Booker } from "@/components/portal/Booker";
 import { PortalLogo } from "@/components/portal/ui";
+import { sharePreview } from "@/lib/og";
 
-export const metadata: Metadata = { title: "Book an appointment" };
+export const metadata: Metadata = {
+  title: "Book an appointment",
+  ...sharePreview({
+    title: "Book your next look · I Am Image Salon",
+    description: "Pick your service, stylist and time online. Locs, braids, silk press, color, cuts and fades in NW Portland.",
+    path: "/book",
+    image: "/og/book.jpg",
+    alt: "Book your next look at I Am Image Salon: online booking with price, stylist and time.",
+  }),
+};
 
 export default function BookPage() {
   return (

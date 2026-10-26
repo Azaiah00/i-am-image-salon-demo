@@ -9,6 +9,7 @@ import { SITE } from "@/lib/site";
 import { STAFF_BY_KEY, addDays, setStatus, reschedule, signIn, signOut, slotsFor, startOfDay, tierFor, useDB, useMounted, useNow, ymd, type Appointment } from "@/lib/portal/db";
 import { Drawer, Loading, PortalLogo, StatusBadge, fmtDate, fmtTime, money } from "./ui";
 import { cn } from "@/lib/cn";
+import { maybeStartTour } from "@/lib/portal/tour";
 
 export function ClientPortal() {
   const mounted = useMounted();
@@ -34,7 +35,7 @@ export function ClientPortal() {
           <h1 className="display text-5xl text-bone">Client portal</h1>
           <p className="mt-3 text-mist/80">Sign in to see your appointments and Image Journey.</p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <button onClick={() => signIn("client", "Google")} className="btn btn-primary">
+            <button onClick={() => (signIn("client", "Demo login"), maybeStartTour("client"))} className="btn btn-primary">
               Open as demo client
             </button>
             <Link href="/portal" className="btn btn-ghost">
@@ -77,14 +78,14 @@ export function ClientPortal() {
               Client since {fmtDate(me.since, { month: "long", year: "numeric" })} · {me.hair}
             </p>
           </div>
-          <Link href="/book" className="btn btn-primary self-start md:self-auto">
+          <Link href="/book" data-tour="c-book" className="btn btn-primary self-start md:self-auto">
             <CalendarHeart className="size-4" aria-hidden /> Book an appointment
           </Link>
         </div>
 
         <div className="mt-10 grid gap-5 lg:grid-cols-[1.3fr_1fr]">
           {/* Upcoming */}
-          <section className="card-night p-6" aria-labelledby="up-h">
+          <section data-tour="c-upcoming" className="card-night p-6" aria-labelledby="up-h">
             <h2 id="up-h" className="text-xl text-bone">
               Upcoming
             </h2>
@@ -120,7 +121,7 @@ export function ClientPortal() {
                       <p className="mt-1 text-sm text-silver">
                         Deposit paid {money(a.deposit)} · balance {money(Math.max(0, a.price - a.deposit))} at the salon
                       </p>
-                      <div className="mt-4 flex flex-wrap gap-2">
+                      <div data-tour="c-manage" className="mt-4 flex flex-wrap gap-2">
                         <button onClick={() => setMove(a)} className="btn btn-ghost !min-h-11 !px-4 text-sm">
                           <CalendarClock className="size-4" aria-hidden /> Reschedule
                         </button>
@@ -134,7 +135,7 @@ export function ClientPortal() {
               </ul>
             )}
             {lastSvc && (
-              <Link href={`/book?service=${lastSvc.id}&stylist=${past[0].staff}`} className="mt-5 flex items-center justify-between gap-4 rounded-2xl border border-dashed border-white/15 p-4 text-sm text-mist transition hover:border-flare">
+              <Link data-tour="c-again" href={`/book?service=${lastSvc.id}&stylist=${past[0].staff}`} className="mt-5 flex items-center justify-between gap-4 rounded-2xl border border-dashed border-white/15 p-4 text-sm text-mist transition hover:border-flare">
                 <span className="flex items-center gap-3">
                   <RotateCcw className="size-4 text-flare" aria-hidden /> Book again: {lastSvc.name} with {STAFF_BY_KEY[past[0].staff].short}
                 </span>
@@ -144,7 +145,7 @@ export function ClientPortal() {
           </section>
 
           {/* Rewards */}
-          <section className="relative overflow-hidden rounded-[var(--radius-card)] bg-crimson p-6 text-paper" aria-labelledby="club-h">
+          <section data-tour="c-club" className="relative overflow-hidden rounded-[var(--radius-card)] bg-crimson p-6 text-paper" aria-labelledby="club-h">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img width={570} height={570} src="/media/brand/spiral.svg" alt="" aria-hidden className="pointer-events-none absolute -right-10 -top-10 size-56 opacity-25 mix-blend-screen" />
             <p className="eyebrow flex items-center gap-2 text-paper">
@@ -181,7 +182,7 @@ export function ClientPortal() {
         </div>
 
         {/* Image Journey */}
-        <section className="mt-10" aria-labelledby="journey-h">
+        <section data-tour="c-journey" className="mt-10" aria-labelledby="journey-h">
           <div className="flex items-end justify-between gap-4">
             <div>
               <p className="eyebrow flex items-center gap-2 text-silver">
@@ -215,7 +216,7 @@ export function ClientPortal() {
         </section>
 
         {/* History */}
-        <section className="card-night mt-10 p-6" aria-labelledby="hist-h">
+        <section data-tour="c-history" className="card-night mt-10 p-6" aria-labelledby="hist-h">
           <h2 id="hist-h" className="text-xl text-bone">
             Visit history
           </h2>

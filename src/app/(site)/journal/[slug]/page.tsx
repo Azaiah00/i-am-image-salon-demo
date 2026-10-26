@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { sharePreview } from "@/lib/og";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, CalendarHeart, Check } from "lucide-react";
@@ -15,7 +16,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const a = ARTICLE_BY_SLUG[slug];
   if (!a) return {};
-  return { title: { absolute: `${a.title} | I Am Image` }, description: a.dek, alternates: { canonical: `/journal/${slug}` }, openGraph: { type: "article", title: a.title, description: a.dek } };
+  return { title: { absolute: `${a.title} | I Am Image` }, description: a.dek, alternates: { canonical: `/journal/${slug}` }, ...sharePreview({ type: "article", title: a.title, description: a.dek, path: `/journal/${slug}`, image: "/og.jpg", alt: "I Am Image Salon in NW Portland" }) };
 }
 
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
