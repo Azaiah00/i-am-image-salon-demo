@@ -263,7 +263,7 @@ export default function HomePage() {
             <p className="mt-4 max-w-xs text-mist/85">
               From {SITE.rating.count} reviews on Google — and recognized by BusinessRate as a Top Hair Salon in Portland’s Northwest District for 2026, based on Google reviews.
             </p>
-            <a href={SITE.googleUrl} target="_blank" rel="noopener" className="btn btn-ghost mt-6">
+            <a href={SITE.googleReviewsUrl} target="_blank" rel="noopener" className="btn btn-ghost mt-6">
               Read them on Google <ArrowRight className="size-4" aria-hidden />
             </a>
           </div>

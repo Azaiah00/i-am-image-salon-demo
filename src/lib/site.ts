@@ -30,8 +30,13 @@ export const SITE = {
     neighborhood: "Northwest District",
   },
   geo: { lat: 45.533887, lng: -122.6892909 },
-  mapsUrl: "https://www.google.com/maps/dir/?api=1&destination=1500+NW+18th+Ave+Suite+104+Portland+OR+97209",
-  googleUrl: "https://www.google.com/maps/place/I+Am+Image/@45.533887,-122.6892909,17z",
+  /** Google Place ID of the salon's Business Profile (verified Oct 26 2026: "I Am Image", 5.0 · 37 reviews). */
+  googlePlaceId: "ChIJtzftzfwJlVQR3JGjRKDCz38",
+  mapsUrl: "https://www.google.com/maps/dir/?api=1&destination=I+Am+Image+1500+NW+18th+Ave+Suite+104+Portland+OR+97209&destination_place_id=ChIJtzftzfwJlVQR3JGjRKDCz38",
+  /** Opens her actual Google Business Profile listing. */
+  googleUrl: "https://www.google.com/maps/search/?api=1&query=I+Am+Image+Portland+OR&query_place_id=ChIJtzftzfwJlVQR3JGjRKDCz38",
+  /** Opens straight to the Google reviews list for her listing. */
+  googleReviewsUrl: "https://search.google.com/local/reviews?placeid=ChIJtzftzfwJlVQR3JGjRKDCz38",
   /** Google Business Profile, Oct 26 2026. */
   rating: { value: 5.0, count: 37 },
   founded: "2011-07-05",

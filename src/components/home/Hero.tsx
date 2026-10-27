@@ -221,7 +221,7 @@ export function Hero() {
               See the menu <ArrowRight className="size-4" aria-hidden />
             </Link>
           </div>
-          <a href={SITE.googleUrl} target="_blank" rel="noopener" className="mt-4 inline-flex min-h-11 items-center gap-3 text-sm text-mist/90 hover:text-paper">
+          <a href={SITE.googleReviewsUrl} target="_blank" rel="noopener" className="mt-4 inline-flex min-h-11 items-center gap-3 text-sm text-mist/90 hover:text-paper">
             <Stars />
             <span>
               <strong className="font-semibold text-paper">5.0</strong> from {SITE.rating.count} Google reviews

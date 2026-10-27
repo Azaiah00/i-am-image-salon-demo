@@ -6,7 +6,7 @@ Everything below is either missing, conflicting between her listings, or a **pro
 
 | Item | What we published | Conflict / note |
 |---|---|---|
-| Hours | Mon, Tue, Thu 10 AM–8 PM · Wed closed · Fri 10 AM–5 PM · Sat 8:30 AM–5 PM · Sun closed (iamimagepdx.com/contact + Square site) | **Yelp** shows Mon/Tue/Thu from **1 PM**, Fri & Sat to **6 PM**. Ask Kayla which is right, then update Yelp. The audit fails the build if the Yelp 1 PM time ever appears. |
+| Hours | Mon, Tue, Thu 10 AM–8 PM · Wed closed · Fri 10 AM–5 PM · Sat 8:30 AM–5 PM · Sun closed (iamimagepdx.com/contact + Square site) | Three listings disagree. **Yelp** shows Mon/Tue/Thu from **1 PM**, Fri & Sat to **6 PM**. **Google** (checked Oct 26 2026) shows Mon–Thu 10 AM–8 PM (**Wed open**), **Fri to 7 PM**, **Sat to 6 PM**, **Sun 11 AM–5:07 PM**. Ask Kayla for her real hours, then make Google, Yelp and the site match. The audit fails the build if the Yelp 1 PM time ever appears. |
 | Address | 1500 NW 18th Ave, Suite 104, Portland, OR 97209 — inside ActivSpace on Raleigh | Google writes it “1500 NW 18th PTLD #104”. Same place; we use the standard USPS form. |
 | Consultation | Consultation $50 / 30 min (Square) | Her Square bio and Yelp both say **“Free hair consultations are available.”** Which is it? |
 | Rating | 5.0 from 37 Google reviews (Oct 26 2026) | Yelp shows 4.5 from 11. Site only cites Google. Update the count in `src/lib/site.ts` as it grows. |
