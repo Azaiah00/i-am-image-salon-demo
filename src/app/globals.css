@@ -271,7 +271,9 @@
     content: attr(data-reflect);
     position: absolute;
     left: 0;
-    top: 44%;
+    /* 76% of the line box = the letters' baseline (Jost caps at leading 0.85),
+       so the flipped copy hangs just below the word like a mirror. */
+    top: 76%;
     transform: scaleY(-1);
     opacity: 0.24;
     -webkit-mask-image: linear-gradient(to top, #000 0%, transparent 60%);
